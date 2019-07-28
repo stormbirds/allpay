@@ -20,6 +20,8 @@
         <springboot.version>2.1.6.RELEASE</springboot.version>
         <project.version>0.0.1-SNAPSHOT</project.version>
         <lombok.version>1.18.8</lombok.version>
+
+        <io.springfox.version>2.9.2</io.springfox.version>
     </properties>
 
     <modules>
@@ -48,7 +50,57 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${io.springfox.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${io.springfox.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.stormbirds</groupId>
+                <artifactId>api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.stormbirds</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.stormbirds</groupId>
+                <artifactId>model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.stormbirds</groupId>
+                <artifactId>payorder</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.stormbirds</groupId>
+                <artifactId>service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.stormbirds</groupId>
+                <artifactId>users</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.stormbirds</groupId>
+                <artifactId>web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
+
+
 
     </dependencyManagement>
 

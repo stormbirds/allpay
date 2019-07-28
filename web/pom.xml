@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>web</artifactId>
-    <version>${project.version}}</version>
+    <version>${project.version}</version>
     <name>web</name>
     <description>系统总前端，所有开放接口在此处定义</description>
 
@@ -25,9 +25,23 @@
 
 
         <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.stormbirds</groupId>
+            <artifactId>model</artifactId>
         </dependency>
     </dependencies>
 

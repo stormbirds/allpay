@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>payorder</artifactId>
-    <version>${project.version}}</version>
+    <version>${project.version}</version>
     <name>payorder</name>
     <description>支付订单系统</description>
 
