@@ -6,7 +6,7 @@ nacos:
     server-addr: 114.116.26.35:8848,114.116.140.153:8848,114.115.161.140:8848
     data-id: huawei_cloud
     group: DEFAULT_GROUP
-    type: yaml
+    type: properties
 #    max-retry: 10
 #    config-retry-time: 2333
 #    config-long-poll-timeout: 46000

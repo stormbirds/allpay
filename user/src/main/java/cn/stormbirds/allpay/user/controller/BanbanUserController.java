@@ -2,8 +2,6 @@ package cn.stormbirds.allpay.user.controller;
 
 
 import cn.stormbirds.allpay.api.user.IBanbanUserService;
-import cn.stormbirds.allpay.common.base.BaseController;
-import cn.stormbirds.allpay.common.request.ResultCode;
 import cn.stormbirds.allpay.common.request.ResultJson;
 import cn.stormbirds.allpay.model.users.User;
 import com.alibaba.nacos.api.config.annotation.NacosValue;
@@ -28,6 +26,9 @@ import org.springframework.web.bind.annotation.*;
 public class BanbanUserController/* extends BaseController*/ {
     @Autowired
     private IBanbanUserService userService;
+
+    @NacosValue(value = "${spring.datasource.username:}")
+    private String username;
 
     @ApiOperation(value = "获取用户列表")
     @GetMapping(value = "/users")
@@ -62,7 +63,13 @@ public class BanbanUserController/* extends BaseController*/ {
 
     @ApiOperation(value = "删除用户")
     @DeleteMapping("/delete/{id}")
-    public ResultJson delete(@PathVariable("id") int id) {
-        return null;
+    public String delete(@PathVariable("id") int id) {
+        return username;
+    }
+
+    @ApiOperation(value = "获取nacos配置")
+    @GetMapping("/getnacos")
+    public ResultJson getNacos(){
+        return ResultJson.ok();
     }
 }
