@@ -51,7 +51,7 @@ public class CodeGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/allpay-user/src/main/java");
+        gc.setOutputDir(projectPath + "/web/src/main/java");
         gc.setAuthor("StormBirds Email：xbaojun@gmail.com");
         gc.setOpen(false);
         gc.setFileOverride(true);
@@ -60,7 +60,7 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/banban?useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/allpay_web?useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
@@ -69,8 +69,8 @@ public class CodeGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setModuleName(scanner("cn.stormbirds.allpaymodel"));
-        pc.setParent("cn.stormbirds");
+        pc.setModuleName(scanner("cn.stormbirds.allpay.model"));
+        pc.setParent("cn.stormbirds.allpay");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -93,7 +93,7 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/allpay-dao/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                return projectPath + "/dao/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
 
@@ -119,7 +119,7 @@ public class CodeGenerator {
 //        strategy.setSuperEntityClass("com.baomidou.ant.common.BaseEntity");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
-        strategy.setSuperControllerClass("cn.stormbirds.banbancommon.base.BaseController");
+        strategy.setSuperControllerClass("cn.stormbirds.allpay.common.base.BaseController");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);

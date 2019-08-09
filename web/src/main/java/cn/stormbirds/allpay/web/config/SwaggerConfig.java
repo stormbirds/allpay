@@ -27,7 +27,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "分布式支付订单系统 Swagger 实例文档",
+                "分布式支付订单系统-前端服务 Swagger 实例文档",
                 "我的博客网站：https://blog.stormbirds.cn，欢迎大家访问。",
                 "API V1.0",
                 null,

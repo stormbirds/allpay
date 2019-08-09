@@ -1,0 +1,88 @@
+<style>
+    .dropzone {
+        border: 2px dashed #0087F7;
+        border-radius: 5px;
+        background: white;
+        text-align: left;
+        padding: 10px 10px;
+    }
+    .dropzone .dz-message {
+        font-weight: 400;
+        font-size: 16px;
+    }
+
+    .dropzone .dz-message .note {
+        font-size: 14px;
+        font-weight: 400;
+        display: block;
+        margin-top: 1.4rem;
+        border-left: none;
+    }
+    .dropzone .dz-preview {
+        margin: 10px;
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">
+        上传文件
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="dropzone" class="dropzone">
+                <div class="dz-message needsclick">
+                    拖放文件到此处，或点击虚线区域上传<br>
+                    <span class="note needsclick">(上传文件名扩展名必须为apk)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="pull-left">
+        <a class="btn blue btnClearDropZone">清空记录</a>
+    </div>
+    <div class="pull-right">
+        <button type="button" data-dismiss="modal" class="btn btn-default">关闭</button>
+    </div>
+</div>
+
+
+<script>
+    Dropzone.autoDiscover = false;
+    var myDropzone;
+    function initUploadComp() {
+        var uploadUrl = '/admin/appVersion/updateApk';
+        myDropzone = new Dropzone("div#dropzone", {
+            url: uploadUrl,
+            paramName: "file",
+            maxFilesize: 100, // MB
+            maxFiles: 5,
+            acceptedFiles: ".apk",
+            dictDefaultMessage: "点击选择, 或者拖放文件到此处"
+        });
+        myDropzone.on("addedfile", function(file) {
+        });
+        myDropzone.on("success", function(file, res) {
+            if( res && res.code === 1) {
+                console.log(res);
+                onApkUploadCompleted(res.data);
+                $('#popupModel').modal('hide');
+            }
+        });
+        myDropzone.on("removedfile", function(file) {
+        });
+        myDropzone.on("sending", function(file, xhr, formData) {
+            //此处可以增加附加表单字段
+            //formData.append("archCatalogId", G_archCatalogId);
+        });
+        $(".btnClearDropZone").click(function () {
+            myDropzone.removeAllFiles();
+        });
+    }
+    $(function(){
+        initUploadComp()
+    });
+</script>

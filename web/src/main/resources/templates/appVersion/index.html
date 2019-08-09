@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layouts/_default">
+<head>
+    <title>管理后台 | Admin Dashboard</title>
+    <link href="/assets/global/plugins/dropzone/basic.min.css" rel="stylesheet"/>
+    <link href="/assets/global/plugins/dropzone/dropzone.min.css" rel="stylesheet"/>
+    <link href="/assets/pages/css/uploadindex.css" rel="stylesheet"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+        <!-- BEGIN PAGE BAR -->
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <a href="/">首页</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <span>App版本更新</span>
+                </li>
+            </ul>
+        </div>
+        <!-- END PAGE BAR -->
+
+        <!-- END PAGE HEADER-->
+
+        <div class="row" >
+            <div class="col-md-12" >
+                <div class="portlet light bordered" style="margin-top: 20px;">
+                    <!-- Begin: life time stats -->
+                    <div class="portlet-title">
+                        <div class="caption font-dark">
+                            <span class="caption-subject bold uppercase"> App版本更新</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="AppVersionForm" action="/admin/appVersion/update" method="post" role="form" class="form-horizontal">
+                                    <div class="form-body" >
+                                        <input type="hidden" id="appId" name="appId" th:value="${app.appId}"/>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">应用名称<span class="required" >*</span></label>
+                                            <div class="col-md-4">
+                                                <input type="text" name="appName" placeholder="输入应用名称" class="form-control" th:value="${app.appName}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">VersionName<span class="required" >*</span></label>
+                                            <div class="col-md-2">
+                                                <input type="text" name="versionName" placeholder="输入versionName" class="form-control" th:value="${app.versionName}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">VersionCode<span class="required" >*</span></label>
+                                            <div class="col-md-2">
+                                                <input type="text" name="versionCode" placeholder="输入versionCode" class="form-control" th:value="${app.versionCode}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">APK地址<span class="required" >*</span></label>
+                                            <div class="col-md-6">
+                                                    <input class="form-control" style="width: 100%" type="text" id="apkUrl" name="apkUrl" placeholder="点击下方按钮上传" th:value="${app.appUrl}" >
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">更新说明<span class="required" >*</span></label>
+                                            <div class="col-md-6">
+                                                <textarea name="changeLog" cols="30" rows="5" class="form-control" th:text="${app.changeLog}"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-4">
+                                                <label class="mt-checkbox">
+                                                    <input type="checkbox" name="forceUpgrade" th:value="1"> 是否强制更新
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input class="form-control" style="width: 100%" type="text" id="fileSize" name="fileSize"  th:value="${app.fileSize}" th:type="hidden">
+                                    </div>
+                                </form>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <form method="post" enctype="multipart/form-data" id="form" action="upload">
+                                                                <span class="input-group-btn">
+                                                                            <span class="select-button">
+                                                                                <i class="fa fa-cloud fa-fw"></i>选择APK文件</span>
+                                                                            <input class="file-input" type="file" id="select" />
+                                                                        </span>
+                                            </form>
+                                                <div class="tab-pane fade in active" id="h5">
+                                                    <table class="table table-striped table-hover text-left" style="margin-top:30px">
+                                                        <thead>
+                                                        <tr>
+                                                            <th class="col-md-4">Filename</th>
+                                                            <th class="col-md-2">Size</th>
+                                                            <th class="col-md-6">Detail</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="fsUploadProgress2">
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <div class="row">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <button type="button" class="btn blue" onclick="Function_SaveForm();">保存 <i class="fa fa-save"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="popupModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+            </div>
+        </div>
+        <div class="display">
+            <a id = "imgContainer">
+                <img data-key="">
+            </a>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="pageJs" th:remove="tag">
+    <script type="text/javascript" src="https://unpkg.com/qiniu-js@2.5.3/dist/qiniu.min.js"></script>
+    <script type="text/javascript" src="/assets/global/plugins/plupload/js/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/assets/global/plugins/plupload/common.js"></script>
+    <script type="text/javascript" src="/assets/global/plugins/plupload/uploadWithOthers.js"></script>
+
+    <script type="text/javascript" src="/assets/global/plugins/plupload/widget.js"></script>
+    <script type="text/javascript" src="/assets/global/plugins/plupload/ui.js"></script>
+    <script src="/assets/global/plugins/plupload/mimetype.js"></script>
+
+    <script th:inline="javascript">
+
+        $(function(){
+            var forceUpgrade = /*[[${app.forceUpgrade}]]*/
+                setChecked('forceUpgrade',forceUpgrade);
+                if(forceUpgrade!=1){
+                    setChecked('forceUpgrade',0);
+                }
+            var setting = {
+                rules: {
+                    appName: {
+                        required: true
+                    },
+                    versionName: {
+                        required: true
+                    },
+                    versionCode: {
+                        required: true
+                    },
+                    apkUrl: {
+                        required: true
+                    },
+                    changeLog: {
+                        required: true
+                    },
+                    forceUpgrade: {
+                        required: false
+                    }
+                },
+                messages: {
+
+                }
+            };
+
+            WX.validate('AppVersionForm',setting);
+
+            var options = {
+                dataType:  'json',
+                beforeSubmit:  function() {
+                    App.blockUI({ animate: true});
+                    return true;
+                },
+                success: function(responseText){
+                    App.unblockUI();
+                    if(responseText){
+                        if(responseText.code === 1) {
+                            WX.toastr({'type':'success','message':'保存成功', 'onHidden':function(){
+                                    location.href = "/admin/appVersion";
+                                }});
+                        }else{
+                            WX.toastr({'type':'error','message': responseText.msg});
+                        }
+                    }
+                }
+            };
+            $('#AppVersionForm').ajaxForm(options);
+
+        })
+
+        function Function_SaveForm(){
+            $("#AppVersionForm").submit();
+        }
+
+
+
+    </script>
+</div>
+
+</body>
+
+</html>

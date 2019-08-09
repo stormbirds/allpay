@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -27,20 +28,20 @@ public class BanbanUserController/* extends BaseController*/ {
     @Autowired
     private IBanbanUserService userService;
 
-    @NacosValue(value = "${spring.datasource.username:}")
+    @NacosValue(value = "${spring.datasource.username:}",autoRefreshed = true)
     private String username;
+
+    @NacosValue(value = "${useLocalCache:false}",autoRefreshed = true)
+    private boolean useLocalCache;
+
+    @NacosValue(value = "${spring.datasource:空}",autoRefreshed = true)
+    private String dataSource;
 
     @ApiOperation(value = "获取用户列表")
     @GetMapping(value = "/users")
     public ResultJson getUserList(){
         return ResultJson.ok(userService.list());
     }
-
-    @NacosValue(value = "${useLocalCache:false}", autoRefreshed = true)
-    private boolean useLocalCache;
-
-    @NacosValue(value = "${spring.datasource:空}", autoRefreshed = true)
-    private String dataSource;
 
     @ApiOperation(value = "添加用户")
     @PostMapping("/add")

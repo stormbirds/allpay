@@ -17,7 +17,7 @@ import cn.stormbirds.allpay.common.request.ResultJson;
 public class BaseController {
     public ResultJson showJsonResult(boolean code, String msg, Object data){
         if(code){
-            return ResultJson.ok(ResultCode.getSuccessCode(msg,data));
+            return ResultJson.ok(data);
         }
         return ResultJson.failure(ResultCode.getFailureCode(msg,data));
     }
