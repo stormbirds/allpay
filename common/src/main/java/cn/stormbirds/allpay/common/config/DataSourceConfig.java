@@ -15,9 +15,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 /**
@@ -32,15 +32,6 @@ import java.util.UUID;
 @Configuration
 public class DataSourceConfig {
 
-//    @NacosValue(value = "${spring.datasource.url:}")
-//    private String url;
-//    @NacosValue(value = "${spring.datasource.username:}")
-//    private String username;
-//    @NacosValue(value = "${spring.datasource.password:}")
-//    private String password;
-//    @NacosValue(value = "${spring.datasource.driverClassName:}")
-//    private String driverClassName;
-
     @NacosValue("${spring.datasource.druid.url:}")
     private String url;
 
@@ -53,53 +44,53 @@ public class DataSourceConfig {
     @NacosValue("${spring.datasource.druid.driverClassName:}")
     private String driverClassName;
 
-    @NacosValue("${spring.datasource.druid.initialSize:}")
+    @NacosValue("${spring.datasource.druid.initialSize:-1}")
     private Integer initialSize;
 
-    @NacosValue("${spring.datasource.druid.minIdle:}")
+    @NacosValue("${spring.datasource.druid.minIdle:-1}")
     private Integer minIdle;
 
-    @NacosValue("${spring.datasource.druid.maxActive:}")
+    @NacosValue("${spring.datasource.druid.maxActive:-1}")
     private Integer maxActive;
 
-    @NacosValue("${spring.datasource.druid.maxWait:}")
+    @NacosValue("${spring.datasource.druid.maxWait:-1}")
     private Long maxWait;
 
-    @NacosValue("${spring.datasource.druid.timeBetweenEvictionRunsMillis:}")
+    @NacosValue("${spring.datasource.druid.timeBetweenEvictionRunsMillis:-1}")
     private Long timeBetweenEvictionRunsMillis;
 
-    @NacosValue("${spring.datasource.druid.minEvictableIdleTimeMillis:}")
+    @NacosValue("${spring.datasource.druid.minEvictableIdleTimeMillis:-1}")
     private Long minEvictableIdleTimeMillis;
 
-    @NacosValue("${spring.datasource.druid.validationQuery:}")
+    @NacosValue("${spring.datasource.druid.validationQuery:select 1}")
     private String validationQuery;
 
-    @NacosValue("${spring.datasource.druid.validationQueryTimeout:}")
+    @NacosValue("${spring.datasource.druid.validationQueryTimeout:-1}")
     private Integer validationQueryTimeout;
 
-    @NacosValue("${spring.datasource.druid.testWhileIdle:}")
+    @NacosValue("${spring.datasource.druid.testWhileIdle:true}")
     private Boolean testWhileIdle;
 
-    @NacosValue("${spring.datasource.druid.testOnBorrow:}")
+    @NacosValue("${spring.datasource.druid.testOnBorrow:true}")
     private Boolean testOnBorrow;
 
-    @NacosValue("${spring.datasource.druid.testOnReturn:}")
+    @NacosValue("${spring.datasource.druid.testOnReturn:false}")
     private Boolean testOnReturn;
 
-    @NacosValue("${spring.datasource.druid.keepAlive:}")
+    @NacosValue("${spring.datasource.druid.keepAlive:false}")
     private Boolean keepAlive;
 
-    @NacosValue("${spring.datasource.druid.poolPreparedStatements:}")
+    @NacosValue("${spring.datasource.druid.poolPreparedStatements:false}")
     private Boolean poolPreparedStatements;
 
-    @NacosValue("${spring.datasource.druid.maxPoolPreparedStatementPerConnectionSize:}")
+    @NacosValue("${spring.datasource.druid.maxPoolPreparedStatementPerConnectionSize:-1}")
     private Integer maxPoolPreparedStatementPerConnectionSize;
 
     @NacosValue("${spring.datasource.druid.filters:}")
     private String filters;
 
-    @NacosValue("{spring.datasource.druid.connectProperties:}")
-    private String connectionProperties;
+    @NacosValue("${spring.datasource.druid.connectProperties:}")
+    private String connectProperties;
     @Autowired
     private DataSourceProperties basicProperties;
 
@@ -131,28 +122,28 @@ public class DataSourceConfig {
         }else{
             druidDataSource.setDriverClassName(basicProperties.getDriverClassName());
         }
-        if(initialSize!=null) {
+        if(initialSize!=null && initialSize!=-1) {
             druidDataSource.setInitialSize(initialSize);
         }
-        if(maxActive!=null) {
+        if(maxActive!=null && maxActive!=-1) {
             druidDataSource.setMaxActive(maxActive);
         }
-        if(minIdle!=null ) {
+        if(minIdle!=null && minIdle!=-1) {
             druidDataSource.setMinIdle(minIdle);
         }
-        if(maxWait!=null) {
+        if(maxWait!=null && maxWait!=-1) {
             druidDataSource.setMaxWait(maxWait);
         }
         if(poolPreparedStatements!=null) {
             druidDataSource.setPoolPreparedStatements(poolPreparedStatements);
         }
-        if(maxPoolPreparedStatementPerConnectionSize!=null) {
+        if(maxPoolPreparedStatementPerConnectionSize!=null && maxPoolPreparedStatementPerConnectionSize!=-1) {
             druidDataSource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
         }
         if(validationQuery!=null && !validationQuery.isEmpty()) {
             druidDataSource.setValidationQuery(validationQuery);
         }
-        if(validationQueryTimeout!=null) {
+        if(validationQueryTimeout!=null && validationQueryTimeout!=-1) {
             druidDataSource.setValidationQueryTimeout(validationQueryTimeout);
         }
         if(testOnBorrow!=null) {
@@ -167,10 +158,10 @@ public class DataSourceConfig {
         if(keepAlive!=null) {
             druidDataSource.setKeepAlive(keepAlive);
         }
-        if(timeBetweenEvictionRunsMillis!=null) {
+        if(timeBetweenEvictionRunsMillis!=null && timeBetweenEvictionRunsMillis!=-1) {
             druidDataSource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
         }
-        if(minEvictableIdleTimeMillis!=null ) {
+        if(minEvictableIdleTimeMillis!=null && minEvictableIdleTimeMillis!=-1) {
             druidDataSource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
         }
 //            druidDataSource.setConnectionInitSqls(connectionInitSqls);
@@ -180,6 +171,13 @@ public class DataSourceConfig {
             } catch (SQLException e) {
                 log.error("setFilters error", e);
             }
+        }
+        if (connectProperties != null && !connectProperties.isEmpty()) {
+            Properties properties = new Properties();
+            List<String> strings = Arrays.asList(connectProperties.split(";"));
+            properties.putAll(Arrays.stream(connectProperties.split(";"))
+                    .collect(Collectors.toMap(s -> s.substring(0,s.indexOf("=")), s -> s.substring(s.indexOf("=")+1))));
+            druidDataSource.setConnectProperties(properties);
         }
 
         Map<Object, Object> dataSourceMap = new HashMap<>(4);

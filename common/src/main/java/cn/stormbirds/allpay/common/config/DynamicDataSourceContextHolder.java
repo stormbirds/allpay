@@ -36,7 +36,7 @@ public class DynamicDataSourceContextHolder {
 
 
 
-    private static ThreadLocal<String> contextHolder = null;
+    private static ThreadLocal<String> contextHolder = new ThreadLocal<>();
     private static DynamicRoutingDataSource routingDataSourceThreadLocal = null;
 
 

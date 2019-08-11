@@ -12,7 +12,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
  * @author StormBirds Email：xbaojun@gmail.com
  * @since 2019-08-06
  */
-@RefreshScope
 @Api(value = "APP版本管理控制器",description = "用于app版本管理")
 @RestController
 @RequestMapping(value = "/api/v1/appversionmanager")
