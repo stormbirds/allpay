@@ -1,13 +1,11 @@
 package cn.stormbirds.allpay.web;
 
+import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 
-@RefreshScope
 @SpringBootApplication(scanBasePackages = "cn.stormbirds.allpay")
-@EnableDiscoveryClient
+@NacosPropertySource(dataId = "allpay_web-dev.properties",autoRefreshed = true)
 public class WebApplication {
 
     public static void main(String[] args) {

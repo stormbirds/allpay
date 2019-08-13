@@ -1,6 +1,7 @@
 
 package cn.stormbirds.allpay.common.config;
 
+import com.alibaba.druid.filter.config.ConfigFilter;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.alibaba.nacos.api.config.annotation.NacosValue;
@@ -200,6 +201,11 @@ public class DataSourceConfig {
     @Bean
     public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
+    }
+
+    @Bean
+    public ConfigFilter configFilter(){
+        return new ConfigFilter();
     }
 
 }

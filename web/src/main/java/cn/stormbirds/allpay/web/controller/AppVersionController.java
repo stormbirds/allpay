@@ -1,20 +1,23 @@
 package cn.stormbirds.allpay.web.controller;
 
 import cn.stormbirds.allpay.api.user.IAppVersionService;
-import cn.stormbirds.allpay.common.request.ResultCode;
 import cn.stormbirds.allpay.common.service.UploadService;
 import cn.stormbirds.allpay.common.base.BaseController;
 import cn.stormbirds.allpay.common.request.ResultJson;
 import cn.stormbirds.allpay.common.entity.FileInfo;
 import cn.stormbirds.allpay.model.web.AppVersion;
+import cn.stormbirds.allpay.model.web.FindRoundEqModel;
+import cn.stormbirds.allpay.web.service.IRankShopService;
+import com.alibaba.nacos.api.config.annotation.NacosValue;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 
 /**
@@ -32,10 +35,13 @@ public class AppVersionController extends BaseController {
     private final IAppVersionService appVersionService;
 
     private final UploadService uploadService;
-    @Value("${test.name}")
+    @NacosValue("${test.name:a}")
     private String name;
-    @Value("${test.age}")
+    @NacosValue("${test.age:0}")
     private int age;
+
+    @Autowired
+    private IRankShopService rankShopService;
 
     @Autowired
     public AppVersionController(IAppVersionService appVersionService, UploadService uploadService) {
@@ -100,5 +106,12 @@ public class AppVersionController extends BaseController {
     @RequestMapping(value="/uploadDlg", method=RequestMethod.GET)
     public ModelAndView uploadDlg(){
         return new ModelAndView("appVersion/uploadDlg");
+    }
+
+    @ApiOperation(value = "获取范围内商家")
+    @GetMapping(value = "/getFindModel")
+    public List<FindRoundEqModel> getFindModel(@RequestParam double minLo , @RequestParam double maxLo ,
+                                               @RequestParam double minLa , @RequestParam double maxLa){
+        return rankShopService.getFindModel(minLo,maxLo,minLa,maxLa);
     }
 }
