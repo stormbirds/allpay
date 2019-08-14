@@ -40,8 +40,6 @@ public class AppVersionController extends BaseController {
     @NacosValue("${test.age:0}")
     private int age;
 
-    @Autowired
-    private IRankShopService rankShopService;
 
     @Autowired
     public AppVersionController(IAppVersionService appVersionService, UploadService uploadService) {
@@ -108,10 +106,5 @@ public class AppVersionController extends BaseController {
         return new ModelAndView("appVersion/uploadDlg");
     }
 
-    @ApiOperation(value = "获取范围内商家")
-    @GetMapping(value = "/getFindModel")
-    public List<FindRoundEqModel> getFindModel(@RequestParam double minLo , @RequestParam double maxLo ,
-                                               @RequestParam double minLa , @RequestParam double maxLa){
-        return rankShopService.getFindModel(minLo,maxLo,minLa,maxLa);
-    }
+
 }

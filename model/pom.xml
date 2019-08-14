@@ -15,5 +15,9 @@
     <name>model</name>
 
     <dependencies>
+        <dependency>
+            <groupId>cn.stormbirds.allpay</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
     </dependencies>
 </project>
