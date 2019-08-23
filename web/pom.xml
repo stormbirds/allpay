@@ -53,6 +53,7 @@
         <dependency>
             <groupId>cn.stormbirds.allpay</groupId>
             <artifactId>service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 

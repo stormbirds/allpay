@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stormbirds.allpay.dao.ShopCouponMapper">
+  <resultMap id="BaseResultMap" type="cn.stormbirds.allpay.model.web.ShopCoupon">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="SHOP" jdbcType="BIGINT" property="shop" />
+    <result column="COUPON_NAME" jdbcType="VARCHAR" property="couponName" />
+    <result column="COUPON_PIC" jdbcType="VARCHAR" property="couponPic" />
+    <result column="CTEAT_TIME" jdbcType="TIMESTAMP" property="cteatTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SHOP, COUPON_NAME, COUPON_PIC, CTEAT_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_coupon
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectByShopId" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from shop_coupon
+      where SHOP = #{shop}
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from shop_coupon
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.stormbirds.allpay.model.web.ShopCoupon">
+    insert into shop_coupon (ID, SHOP, COUPON_NAME, 
+      COUPON_PIC, CTEAT_TIME, UPDATE_TIME
+      )
+    values (#{id,jdbcType=BIGINT}, #{shop,jdbcType=BIGINT}, #{couponName,jdbcType=VARCHAR}, 
+      #{couponPic,jdbcType=VARCHAR}, #{cteatTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.stormbirds.allpay.model.web.ShopCoupon">
+    insert into shop_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="shop != null">
+        SHOP,
+      </if>
+      <if test="couponName != null">
+        COUPON_NAME,
+      </if>
+      <if test="couponPic != null">
+        COUPON_PIC,
+      </if>
+      <if test="cteatTime != null">
+        CTEAT_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="shop != null">
+        #{shop,jdbcType=BIGINT},
+      </if>
+      <if test="couponName != null">
+        #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="couponPic != null">
+        #{couponPic,jdbcType=VARCHAR},
+      </if>
+      <if test="cteatTime != null">
+        #{cteatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.stormbirds.allpay.model.web.ShopCoupon">
+    update shop_coupon
+    <set>
+      <if test="shop != null">
+        SHOP = #{shop,jdbcType=BIGINT},
+      </if>
+      <if test="couponName != null">
+        COUPON_NAME = #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="couponPic != null">
+        COUPON_PIC = #{couponPic,jdbcType=VARCHAR},
+      </if>
+      <if test="cteatTime != null">
+        CTEAT_TIME = #{cteatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.stormbirds.allpay.model.web.ShopCoupon">
+    update shop_coupon
+    set SHOP = #{shop,jdbcType=BIGINT},
+      COUPON_NAME = #{couponName,jdbcType=VARCHAR},
+      COUPON_PIC = #{couponPic,jdbcType=VARCHAR},
+      CTEAT_TIME = #{cteatTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
