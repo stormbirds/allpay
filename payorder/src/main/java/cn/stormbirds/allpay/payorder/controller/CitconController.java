@@ -6,15 +6,18 @@ import bean.CitconTransactionType;
 import cn.stormbirds.payservice.common.bean.DefaultCurType;
 import cn.stormbirds.payservice.common.bean.PayOrder;
 import cn.stormbirds.payservice.common.http.HttpConfigStorage;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * <p>
@@ -36,7 +39,7 @@ public class CitconController {
         payConfigStorage.setToken("793A551B989F4E529F113DB1FE8A0FC9");
         payConfigStorage.setNotifyUrl("https://www.baidu.com");
         payConfigStorage.setReturnUrl("https://www.baidu.com");
-
+        payConfigStorage.setTest(true);
         //请求连接池配置
         HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
         //最大连接数
@@ -50,8 +53,16 @@ public class CitconController {
     @ApiOperation(value = "获取二维码")
     @GetMapping(value = "/getqr")
     public String getQr(@RequestParam BigDecimal price){
-        PayOrder payOrder = new PayOrder("订单title", "摘要", null == price ? new BigDecimal(0.01) : price, System.currentTimeMillis()+"", CitconTransactionType.APP);
+        PayOrder payOrder = new PayOrder("订单title", "摘要", null == price ? new BigDecimal(0.01) : price, System.currentTimeMillis()+"", CitconTransactionType.QR_PAY);
         payOrder.setCurType(DefaultCurType.USD);
         return payService.getQrPay( payOrder);
+    }
+
+    @ApiOperation(value = "获取app订单信息")
+    @PostMapping(value = "/apporder")
+    public Map toPayApp(@RequestParam BigDecimal price,@RequestParam boolean aliOrWx){
+        PayOrder payOrder = new PayOrder("订单title", "摘要", null == price ? new BigDecimal(0.01) : price, System.currentTimeMillis()+"", aliOrWx?CitconTransactionType.ALI_APP:CitconTransactionType.WX_APP);
+        payOrder.setCurType(DefaultCurType.USD);
+        return payService.orderInfo(payOrder);
     }
 }
